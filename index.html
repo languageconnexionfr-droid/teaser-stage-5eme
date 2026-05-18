@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Teaser</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:'Courier New',monospace}
+#app{width:100vw;height:100vh;background:radial-gradient(ellipse at 50% 40%,#1a3a6a,#0d1f3c);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:150;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 6px)}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:100;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.4) 100%)}
+.gl{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity 0.05s}
+.gl.on{opacity:1}
+.ph{display:none;text-align:center;z-index:50;position:absolute;width:90%;max-width:650px;flex-direction:column;align-items:center}
+.ph.on{display:flex}
+.cur{opacity:0.4;animation:bk 1s step-end infinite}
+.cb{width:40px;height:52px;border:2px solid #1a1a1a;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;color:#111;transition:all 0.8s ease}
+.cb.rv{border-color:#ff0040;color:#ff0040;text-shadow:0 0 12px rgba(255,0,64,0.5);box-shadow:0 0 12px rgba(255,0,64,0.15);background:rgba(255,0,64,0.04)}
+.ri{opacity:0;transform:translateY(20px) scale(0.95);transition:all 1.5s ease-out}
+.ri.s{opacity:1;transform:translateY(0) scale(1)}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:0.3}}
+</style></head><body>
+<div id="app" onclick="go()">
+<div id="LC" style="position:fixed;top:20px;left:0;right:0;text-align:center;z-index:200;pointer-events:none">
+<div style="position:relative;display:inline-block">
+<div id="LCmain" style="color:#2a6dd4;font-size:18px;font-weight:bold;letter-spacing:2px;font-family:Georgia,serif">Language Connexion</div>
+<div id="LCr" style="position:absolute;top:0;left:0;right:0;color:#ff0040;font-size:18px;font-weight:bold;letter-spacing:2px;font-family:Georgia,serif;opacity:0;clip-path:inset(0 0 0 0)">Language Connexion</div>
+<div id="LCc" style="position:absolute;top:0;left:0;right:0;color:#00ffff;font-size:18px;font-weight:bold;letter-spacing:2px;font-family:Georgia,serif;opacity:0;clip-path:inset(0 0 0 0)">Language Connexion</div>
+</div></div>
+<canvas id="matrix" style="position:fixed;inset:0;z-index:1;opacity:0.18;pointer-events:none"></canvas>
+<div class="scan"></div><div class="vig"></div><div class="gl" id="G"></div>
+
+<div class="ph on" id="P0">
+
+<svg width="60" height="60" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 10px rgba(255,200,50,0.3));margin-bottom:15px"><circle cx="42" cy="42" r="25" fill="none" stroke="#c8a84e" stroke-width="3"/><line x1="60" y1="60" x2="88" y2="88" stroke="#c8a84e" stroke-width="4" stroke-linecap="round"/></svg>
+<div style="color:#fff;font-size:30px;font-weight:bold;letter-spacing:5px;text-shadow:0 0 30px rgba(0,255,100,0.3)">SHERLOCK HOLMES ACADEMY</div>
+<div style="color:#00ff66;font-size:14px;letter-spacing:10px;margin-top:8px">CYBER DIVISION</div>
+<div style="color:#555;font-size:11px;margin-top:20px">22 JUIN 2026 — COLLÈGE STANISLAS, PARIS</div>
+<div style="color:#333;font-size:12px;letter-spacing:3px;margin-top:25px;animation:pu 2s infinite">[ CLIQUEZ POUR COMMENCER ]</div>
+</div>
+
+<div class="ph" id="P1">
+<svg width="70" height="85" viewBox="0 0 100 120" style="filter:drop-shadow(0 0 15px rgba(0,150,255,0.4));margin-bottom:15px"><path d="M50 5 L90 25 L90 60 Q90 95 50 115 Q10 95 10 60 L10 25 Z" fill="none" stroke="#0088ff" stroke-width="2"/><text x="50" y="68" text-anchor="middle" fill="#0088ff" font-family="Courier New" font-size="24" font-weight="bold">QS</text></svg>
+<div style="color:#ff0040;font-size:14px;font-weight:bold;letter-spacing:6px;animation:pu 0.8s infinite">⚠ SIGNAL INTERCEPTED ⚠</div>
+<div style="color:#ff0040;font-size:11px;letter-spacing:4px;margin-top:5px;opacity:0.5">⚠ SIGNAL INTERCEPTÉ ⚠</div>
+<div style="color:#333;font-size:10px;letter-spacing:3px;margin-top:15px">DECRYPTING... / DÉCRYPTAGE...</div>
+</div>
+
+<div class="ph" id="P2">
+<div style="margin-bottom:20px;opacity:0.5"><div style="width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,#111 50%,transparent);box-shadow:0 0 30px 10px rgba(255,0,64,0.06);margin:0 auto"></div><div style="width:80px;height:100px;background:linear-gradient(180deg,#0a0a0a,#080808);margin:-8px auto 0;clip-path:polygon(20% 0%,80% 0%,100% 100%,0% 100%)"></div></div>
+<div id="DV" style="display:none;gap:25px;margin-bottom:15px;justify-content:center">
+<svg width="30" height="48" viewBox="0 0 30 48"><rect x="2" y="2" width="26" height="44" rx="4" fill="none" stroke="#ff0040" stroke-width="1.5"/></svg>
+<svg width="50" height="38" viewBox="0 0 50 38"><rect x="5" y="2" width="40" height="26" rx="2" fill="none" stroke="#ff0040" stroke-width="1.5"/><path d="M2 30 L5 28 L45 28 L48 30 Z" fill="none" stroke="#ff0040" stroke-width="1.5"/></svg>
+<svg width="42" height="42" viewBox="0 0 42 42"><rect x="2" y="2" width="38" height="28" rx="2" fill="none" stroke="#ff0040" stroke-width="1.5"/><line x1="21" y1="30" x2="21" y2="36" stroke="#ff0040" stroke-width="1.5"/><line x1="13" y1="36" x2="29" y2="36" stroke="#ff0040" stroke-width="1.5"/></svg>
+</div>
+<div id="LK" style="display:none;margin-bottom:15px"><svg width="50" height="50" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 15px rgba(0,255,100,0.4))"><rect x="20" y="45" width="60" height="45" rx="6" fill="none" stroke="#00ff66" stroke-width="2.5"/><path d="M35 45 V32 A15 15 0 0 1 65 32 V45" fill="none" stroke="#00ff66" stroke-width="2.5"/><circle cx="50" cy="65" r="5" fill="#00ff66"/></svg></div>
+<div id="EN" style="color:#ffffff;font-size:22px;line-height:1.7;font-weight:bold;text-shadow:0 0 15px rgba(255,255,255,0.25);min-height:30px"></div>
+<div id="FR" style="color:#00ff66;font-size:15px;opacity:0.7;font-weight:bold;min-height:22px;margin-top:8px;font-style:italic"></div>
+</div>
+
+<div class="ph" id="P3">
+<svg width="60" height="60" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 15px rgba(255,0,64,0.3));margin-bottom:15px"><rect x="20" y="45" width="60" height="45" rx="6" fill="none" stroke="#ff0040" stroke-width="2.5"/><path d="M35 45 V32 A15 15 0 0 1 65 32 V45" fill="none" stroke="#ff0040" stroke-width="2.5"/><circle cx="50" cy="65" r="5" fill="#ff0040"/></svg>
+<div style="color:#ff0040;font-size:13px;letter-spacing:5px;margin-bottom:4px;font-weight:bold">THE 10-DIGIT CODE</div>
+<div style="color:#ff0040;font-size:10px;letter-spacing:3px;margin-bottom:20px;font-style:italic;opacity:0.5">LE CODE À 10 CHIFFRES</div>
+<div id="CB" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:25px"></div>
+<div id="CM" style="display:none"><div style="color:#ff0040;font-size:16px;letter-spacing:4px;font-weight:bold;animation:pu 1.5s infinite">CAN YOU CRACK IT?</div><div style="color:#ff0040;font-size:11px;letter-spacing:3px;opacity:0.5;margin-top:4px">SAUREZ-VOUS LE TROUVER ?</div></div>
+</div>
+
+<div class="ph" id="P4">
+<svg width="60" height="60" viewBox="0 0 100 100" style="margin-bottom:15px;filter:drop-shadow(0 0 12px rgba(0,150,255,0.4))"><rect x="10" y="20" width="80" height="70" rx="8" fill="none" stroke="#0088ff" stroke-width="2.5"/><line x1="10" y1="38" x2="90" y2="38" stroke="#0088ff" stroke-width="2"/><circle cx="30" cy="29" r="4" fill="#ff0040"/><circle cx="50" cy="29" r="4" fill="#00ff66"/><circle cx="70" cy="29" r="4" fill="#0088ff"/><text x="50" y="68" text-anchor="middle" fill="#fff" font-family="Courier New" font-size="24" font-weight="bold">22</text><text x="50" y="82" text-anchor="middle" fill="#0088ff" font-family="Courier New" font-size="11">JUIN</text></svg>
+<div style="color:#fff;font-size:48px;font-weight:bold;letter-spacing:4px;text-shadow:0 0 30px rgba(0,150,255,0.4)">22 JUIN 2026</div>
+<div style="color:#0088ff;font-size:14px;letter-spacing:6px;margin-top:8px">22 JUNE 2026</div>
+<div style="color:#555;font-size:13px;letter-spacing:3px;margin-top:20px">COLLÈGE STANISLAS, PARIS</div>
+<div style="color:#ff0040;font-size:13px;letter-spacing:4px;margin-top:20px;animation:pu 2s infinite">⚠ BE READY / SOYEZ PRÊTS ⚠</div>
+</div>
+
+<div class="ph" id="P5">
+
+<div class="ri" id="R2"><svg width="50" height="50" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 10px rgba(255,200,50,0.3));margin-bottom:10px"><circle cx="42" cy="42" r="25" fill="none" stroke="#c8a84e" stroke-width="3"/><line x1="60" y1="60" x2="88" y2="88" stroke="#c8a84e" stroke-width="4" stroke-linecap="round"/></svg><div style="color:#fff;font-size:32px;font-weight:bold;letter-spacing:5px;text-shadow:0 0 35px rgba(0,255,100,0.3);margin-bottom:5px">SHERLOCK HOLMES</div><div style="color:#fff;font-size:38px;font-weight:bold;letter-spacing:7px;text-shadow:0 0 35px rgba(0,255,100,0.3)">ACADEMY</div></div>
+<div class="ri" id="R3" style="margin-top:10px"><div style="color:#00ff66;font-size:15px;letter-spacing:10px;text-shadow:0 0 18px rgba(0,255,100,0.4)">— CYBER DIVISION —</div></div>
+<div class="ri" id="R4" style="margin-top:22px"><div style="color:#888;font-size:13px;letter-spacing:3px">22 JUNE 2026 — COLLÈGE STANISLAS, PARIS</div><div style="color:#666;font-size:11px;letter-spacing:2px;margin-top:4px">22 JUIN 2026 — COLLÈGE STANISLAS, PARIS</div></div>
+<div class="ri" id="R5" style="margin-top:28px"><div style="color:#ff0040;font-size:30px;font-weight:bold;letter-spacing:5px;text-shadow:0 0 30px rgba(255,0,64,0.6);animation:pu 2.5s infinite">ARE YOU READY?</div><div style="color:#ff0040;font-size:14px;letter-spacing:3px;opacity:0.5;margin-top:6px">ÊTES-VOUS PRÊTS ?</div></div>
+</div>
+
+<div class="ph" id="P6">
+<div style="color:#333;font-size:11px;letter-spacing:4px">[ TRANSMISSION ENDED / FIN DE TRANSMISSION ]</div>
+<div style="color:#222;font-size:11px;letter-spacing:3px;margin-top:15px">CLIQUEZ POUR REJOUER</div>
+</div>
+
+</div>
+<script>
+const L=[
+{en:"Dear students of Stanislas...",fr:"Chers élèves de Stanislas...",p:2800},
+{en:"You don't know me yet...",fr:"Vous ne me connaissez pas encore...",p:2200},
+{en:"but you will.",fr:"mais ça viendra.",p:2800},
+{en:"A dangerous program has been uploaded.",fr:"Un programme dangereux a été mis en ligne.",p:2800},
+{en:"Every phone. Every computer. Every screen.",fr:"Chaque téléphone. Chaque ordinateur. Chaque écran.",p:3000},
+{en:"Every device will be under my control.",fr:"Chaque appareil sera sous mon contrôle.",p:3000},
+{en:"The only way to stop me:",fr:"Le seul moyen de m'arrêter :",p:2500},
+{en:"Find the 10-digit code.",fr:"Trouvez le code à 10 chiffres.",p:3000},
+{en:"You have 5 days.",fr:"Vous avez 5 jours.",p:3000},
+{en:"Are you ready for the challenge?",fr:"Êtes-vous prêts à relever le défi ?",p:3500}
+];
+const dl=Math.max(0,Math.ceil((new Date(2026,5,22)-new Date())/(864e5)));
+const cb=document.getElementById("CB");
+for(let i=0;i<10;i++){let b=document.createElement("div");b.className="cb";b.id="B"+i;cb.appendChild(b)}
+let run=false;
+function sp(id){document.querySelectorAll(".ph").forEach(p=>p.classList.remove("on"));document.getElementById(id).classList.add("on")}
+function gl(){const g=document.getElementById("G");g.style.background="repeating-linear-gradient("+Math.random()*180+"deg,transparent,transparent 3px,rgba(0,255,100,0.1) 3px,rgba(0,255,100,0.1) 6px)";g.classList.add("on");setTimeout(()=>g.classList.remove("on"),140)}
+function sl(ms){return new Promise(r=>setTimeout(r,ms))}
+function tp(en,fr){return new Promise(resolve=>{let i=0;const mx=Math.max(en.length,fr.length);const eE=document.getElementById("EN");const fE=document.getElementById("FR");eE.innerHTML='<span class="cur">▌</span>';fE.textContent="";const iv=setInterval(()=>{if(i<=mx){eE.innerHTML=en.substring(0,i)+'<span class="cur">▌</span>';if(i<=fr.length)fE.textContent=fr.substring(0,i);i++}else{clearInterval(iv);resolve()}},45)})}
+async function go(){if(run)return;run=true;
+sp("P1");await sl(2000);gl();await sl(600);gl();await sl(1500);
+sp("P2");await sl(1000);
+for(let i=0;i<L.length;i++){if(i%3===0)gl();document.getElementById("DV").style.display=(i>=4&&i<=5)?"flex":"none";document.getElementById("LK").style.display=(i>=7&&i<=8)?"block":"none";await tp(L[i].en,L[i].fr);await sl(L[i].p)}
+document.getElementById("DV").style.display="none";document.getElementById("LK").style.display="none";await sl(800);gl();
+sp("P3");await sl(1500);for(let i=0;i<10;i++){await sl(500);document.getElementById("B"+i).classList.add("rv");document.getElementById("B"+i).textContent="?";if(i===4||i===9)gl()}await sl(1500);document.getElementById("CM").style.display="block";await sl(2500);gl();
+sp("P4");await sl(4000);gl();await sl(500);gl();
+sp("P5");await sl(600);for(const id of["R1","R2","R3","R4","R5"]){document.getElementById(id).classList.add("s");await sl(1800)}await sl(4000);gl();await sl(500);
+sp("P6");run=false;document.getElementById("CM").style.display="none";document.querySelectorAll(".cb").forEach(b=>{b.classList.remove("rv");b.textContent=""});document.querySelectorAll(".ri").forEach(r=>r.classList.remove("s"))}
+
+
+// Matrix binary rain
+var cv=document.getElementById("matrix"),cx=cv.getContext("2d");
+function resizeMatrix(){cv.width=window.innerWidth;cv.height=window.innerHeight}
+resizeMatrix();window.addEventListener("resize",resizeMatrix);
+var cols=Math.floor(cv.width/18);
+var drops=[];for(var i=0;i<cols;i++)drops[i]=Math.random()*-100;
+function drawMatrix(){
+  cx.fillStyle="rgba(0,0,0,0.06)";
+  cx.fillRect(0,0,cv.width,cv.height);
+  cx.font="14px Courier New";
+  for(var i=0;i<drops.length;i++){
+    var ch=Math.random()>0.5?"1":"0";
+    var g=Math.random();
+    if(g>0.7){cx.fillStyle="#00ff66"}
+    else if(g>0.4){cx.fillStyle="#0088ff"}
+    else{cx.fillStyle="#004422"}
+    cx.fillText(ch,i*18,drops[i]*18);
+    if(drops[i]*18>cv.height&&Math.random()>0.975)drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(drawMatrix,60);
+
+// LC glitch effect
+setInterval(function(){
+  if(Math.random()<0.08){
+    var r=document.getElementById("LCr"),c=document.getElementById("LCc"),m=document.getElementById("LCmain");
+    var t1=Math.random()*40,t2=Math.random()*40;
+    r.style.opacity="0.7";r.style.left=(Math.random()*4-2)+"px";r.style.top=(Math.random()*2-1)+"px";r.style.clipPath="inset("+t1+"% 0 "+t2+"% 0)";
+    c.style.opacity="0.5";c.style.left=(Math.random()*4-2)+"px";c.style.top=(Math.random()*2-1)+"px";c.style.clipPath="inset("+t2+"% 0 "+t1+"% 0)";
+    setTimeout(function(){r.style.opacity="0";c.style.opacity="0"},80+Math.random()*120);
+  }
+},200);
+
+</script></body></html>
